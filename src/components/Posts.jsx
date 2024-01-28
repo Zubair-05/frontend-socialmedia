@@ -27,10 +27,21 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Post from './Post';
-
+import { useNavigate } from 'react-router-dom';
+import { postsState } from '../store/posts';
+import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
+import { userState } from '../store/user';
 const Posts = () => {
-  const [posts, setPosts] = useState([]);
 
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  // if(!token){
+  //   navigate('/signin');
+  //   return;
+  // }
+
+  const [posts, setPosts] = useRecoilState(postsState)
+  // const userData = useRecoilValue(userState);
   useEffect(() => {
     const fetchPosts = async () => {
       try {

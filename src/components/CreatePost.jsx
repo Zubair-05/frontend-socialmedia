@@ -1,8 +1,18 @@
 import React from 'react';
-import FileInputButton from '../utilities/FileInputButton';
-import galleryIcon from '../Assets/galleryIcon.png'
-import AddIcon from '../Assets/AddIcon.jpg'
+// import FileInputButton from '../utilities/FileInputButton';
+// import galleryIcon from '../Assets/galleryIcon.png'
+// import AddIcon from '../Assets/AddIcon.jpg'
+import { useNavigate } from 'react-router-dom';
 const CreatePost = () => {
+
+  const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+  if(!token){
+    navigate('/signin');
+    return;
+  }
+
+
   const handleFileSelect = (files) => {
     // Process the selected files here
     console.log('Selected files:', files);

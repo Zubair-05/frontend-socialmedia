@@ -3,27 +3,16 @@ import { NavLink } from 'react-router-dom';
 import axios from 'axios';
 import Post from './Post';
 
+import { useRecoilValue, useRecoilState, useSetRecoilState } from 'recoil';
+import { userState } from '../store/user';
+import { postsState } from '../store/posts';
+
 const ProfilePage = () => {
-  const [userData, setUserData] = useState({
-    name: '',
-    bannerImage: 'url-to-banner-image', // Replace with actual URL or import the image
-    profileImage: 'url-to-profile-image', // Replace with actual URL or import the image
-    posts: [],
-  });
 
-  useEffect(() => {
-    // Fetch user data and posts when the component mounts
-    const fetchUserData = async () => {
-      try {
-        const response = await axios.get('http://localhost:3000/user'); // Replace with your actual API endpoint
-        setUserData(response.data);
-      } catch (error) {
-        console.error('Error fetching user data:', error);
-      }
-    };
 
-    fetchUserData();
-  }, []); // Empty dependency array ensures the effect runs only once on mount
+  const userData = useRecoilValue(userState);
+  const posts = useRecoilValue(postsState);
+
 
   return (
     <>
@@ -42,8 +31,9 @@ const ProfilePage = () => {
           <div className="mt-4">
             <h2 className="text-2xl font-bold mb-2 text-black">Your Posts</h2>
             <ul>
-              {userData.posts.map((post) => (
-                <li key={post.id} className="mb-2 ">
+              {posts.map((post) => (
+                (post.user_id == userData.user_id) && 
+                (<li key={post.id} className="mb-2 ">
                   {/* Display post content */}
                   <Post
                     userImage={post.userImageUrl} 
@@ -52,7 +42,7 @@ const ProfilePage = () => {
                     username={post.username}
                     datePosted={post.datePosted}
                   />
-                </li>
+                </li>)
               ))}
             </ul>
           </div>

@@ -7,6 +7,12 @@ import { useNavigate } from 'react-router-dom'
 
 const SignIn = () => {
   const navigate = useNavigate()
+  const token = localStorage.getItem("token");
+  if(token){
+    navigate('/');
+    return;
+  }
+  
   const [formData, setFormData] = React.useState({
     email: '',
     password: ''
@@ -19,6 +25,7 @@ const handleSubmit = async (e) => {
     try {
       const { data } = await axios.post('http://localhost:3000/login', formData)
       console.log(data)
+      localStorage.setItem("token", data.token);
       navigate('/posts')
     } catch (error) {
       console.log(error.response.data)

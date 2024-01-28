@@ -9,13 +9,17 @@ const SignUp = () => {
   const [formData, setFormData] = React.useState({
     email: '',
     password: '',
+    name:'',
     confirmPassword: '',
-    name: '',
-    gender: '',
-    age: '',
-    profilePicture: null,
-    backgroundPicture: null,
+    username: '',
+    media: null,
   })
+
+  const token = localStorage.getItem("token");
+  if(token){
+    navigate('/');
+    return;
+  }
   const handleSubmit = async (e) => {
     e.preventDefault()
 
@@ -29,15 +33,12 @@ const SignUp = () => {
         email,
         password,
         name,
-        phoneNumber,
-        gender,
-        age,
-        profilePicture,
-        backgroundPicture,
+        username,
+        media,
       };
       const res = await axios.post('http://localhost:3000/register', userData);
       console.log(res.data);
-
+      localStorage.setItem("token", res.token);
       navigate('/');
     } catch (err) {
       console.log(`error is : ${err}`  )
@@ -69,7 +70,7 @@ const SignUp = () => {
 
               {/* Additional form fields */}
               <div className="flex flex-col space-y-1 w-64 mx-8">
-                <label htmlFor="email" className="text-sm text-gray-600">Name</label>
+                {/* <label htmlFor="email" className="text-sm text-gray-600">Name</label> */}
                 <input
                   name="email"
                   value={formData.email}
@@ -80,7 +81,7 @@ const SignUp = () => {
                 />
               </div>
               <div className="flex flex-col space-y-1 w-64 mx-8">
-                <label htmlFor="password" className="text-sm text-gray-600">Name</label>
+                {/* <label htmlFor="password" className="text-sm text-gray-600">Name</label> */}
                 <input
                   name="password"
                   value={formData.password}
@@ -91,7 +92,7 @@ const SignUp = () => {
                 />
               </div>
               <div className="flex flex-col space-y-1 w-64 mx-8">
-                <label htmlFor="confirmPassword" className="text-sm text-gray-600">Name</label>
+                {/* <label htmlFor="confirmPassword" className="text-sm text-gray-600">Name</label> */}
                 <input
                   name="confirmPassword"
                   value={formData.confirmPassword}
@@ -102,7 +103,7 @@ const SignUp = () => {
                 />
               </div>
               <div className="flex flex-col space-y-1 w-64 mx-8">
-                <label htmlFor="name" className="text-sm text-gray-600">Name</label>
+                {/* <label htmlFor="name" className="text-sm text-gray-600">Name</label> */}
                 <input
                   name="name"
                   value={formData.name}
@@ -112,39 +113,14 @@ const SignUp = () => {
                   className='px-2 bg-white placeholder-black border-[#eeeeee] border-2 h-10 rounded-md outline-none'
                 />
               </div>
-
               <div className="flex flex-col space-y-1 w-64 mx-8">
-                <label htmlFor="phoneNumber" className="text-sm text-gray-600">Phone Number</label>
+                {/* <label htmlFor="name" className="text-sm text-gray-600">Name</label> */}
                 <input
-                  name="phoneNumber"
-                  value={formData.phoneNumber}
-                  onChange={handleChange}
-                  type="tel"
-                  placeholder='Phone Number'
-                  className='px-2 bg-white placeholder-black border-[#eeeeee] border-2 h-10 rounded-md outline-none'
-                />
-              </div>
-
-              <div className="flex flex-col space-y-1 w-64 mx-8">
-                <label htmlFor="gender" className="text-sm text-gray-600">Gender</label>
-                <input
-                  name="gender"
-                  value={formData.gender}
+                  name="username"
+                  value={formData.username}
                   onChange={handleChange}
                   type="text"
-                  placeholder='Gender'
-                  className='px-2 bg-white placeholder-black border-[#eeeeee] border-2 h-10 rounded-md outline-none'
-                />
-              </div>
-
-              <div className="flex flex-col space-y-1 w-64 mx-8">
-                <label htmlFor="age" className="text-sm text-gray-600">Age</label>
-                <input
-                  name="age"
-                  value={formData.age}
-                  onChange={handleChange}
-                  type="number"
-                  placeholder='Age'
+                  placeholder='Username'
                   className='px-2 bg-white placeholder-black border-[#eeeeee] border-2 h-10 rounded-md outline-none'
                 />
               </div>
@@ -153,19 +129,7 @@ const SignUp = () => {
               <div className="flex flex-col space-y-1 w-64 mx-8">
                 <label htmlFor="profilePicture" className="text-sm text-gray-600">Profile Picture</label>
                 <input
-                  name="profilePicture"
-                  onChange={handleChange2}
-                  type="file"
-                  accept="image/*"
-                  className='px-2 placeholder-black border-[#eeeeee] border-2 h-10 rounded-md outline-none'
-                />
-              </div>
-
-              {/* Background Picture */}
-              <div className="flex flex-col space-y-1 w-64 mx-8">
-                <label htmlFor="backgroundPicture" className="text-sm text-gray-600">Background Picture</label>
-                <input
-                  name="backgroundPicture"
+                  name="media"
                   onChange={handleChange2}
                   type="file"
                   accept="image/*"
